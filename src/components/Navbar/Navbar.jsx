@@ -1,8 +1,19 @@
-import React from 'react';
+import { useState } from 'react';
 import './Navbar.scss';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchCategories } from '../../redux/categorySlice.js';
+import { useEffect } from 'react';
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const { data: categories } = useSelector(state => state.category);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
   return (
     <nav className="navbar">
       <div className="navbar-content">
@@ -35,19 +46,37 @@ const Navbar = () => {
         </div>
         <div className="navbar-bottom bg-regal-blue">
           <div className="container flex flex-between">
-            <ul className="nav-links flex">
-              <button type="button" className="navbar-hide-btn text-white">
+            <ul
+              className={`nav-links flex ${
+                isSidebarOpen ? 'show-nav-links' : ''
+              }`}
+            >
+              <button
+                onClick={() => setIsSidebarOpen(false)}
+                type="button"
+                className="navbar-hide-btn text-white"
+              >
                 <i className="fas fa-times"></i>
               </button>
 
-              <li>
-                <Link to="/" className="nav-link text-white">
-                  Demos
-                </Link>
-              </li>
+              {categories.map(category => (
+                <li key={category.id}>
+                  <Link
+                    to={`/category/${category.id}`}
+                    className="nav-link text-white"
+                    onClick={() => setIsSidebarOpen(false)}
+                  >
+                    {category.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
 
-            <button type="button" className="navbar-show-btn text-gold">
+            <button
+              type="button"
+              className="navbar-show-btn text-gold"
+              onClick={() => setIsSidebarOpen(true)}
+            >
               <i className="fas fa-bars"></i>
             </button>
           </div>
