@@ -1,14 +1,55 @@
+import { useState } from 'react';
 import './SingleProduct.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsModalVisible } from '../../redux/modalSlice';
 import { formatPrice } from 'utils/helpers';
+import { addToCart } from '../../redux/cartSlice';
+import { useNavigate } from 'react-router-dom';
 
 const SingleProduct = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [qty, setQty] = useState(1);
+
   const { data: product } = useSelector(state => state.modal);
 
+  const increaseQty = () => {
+    setQty(prevQty => {
+      let newQty = prevQty + 1;
+      return newQty;
+    });
+  };
+
+  const decreaseQty = () => {
+    setQty(prevQty => {
+      let newQty = prevQty - 1;
+      if (newQty < 1) {
+        newQty = 1;
+      }
+      return newQty;
+    });
+  };
+
+  const addToCartHandler = product => {
+    let totalPrice = qty * product.price;
+    const tempProduct = {
+      ...product,
+      quantity: qty,
+      totalPrice,
+    };
+    dispatch(addToCart(tempProduct));
+    dispatch(setIsModalVisible(false));
+    navigate('/cart');
+  };
+
+  const modalOverlayHandler = e => {
+    if (e.target.classList.contains('overlay-bg')) {
+      dispatch(setIsModalVisible(false));
+    }
+  };
+
   return (
-    <div className="overlay-bg">
+    <div className="overlay-bg" onClick={modalOverlayHandler}>
       <div className="product-details-modal bg-white">
         <button
           type="button"
@@ -24,6 +65,7 @@ const SingleProduct = () => {
               <img src={product.images[0]} alt={product.title} />
             </div>
           </div>
+
           {/* detials right */}
           <div className="details-left">
             <div className="details-info">
@@ -39,19 +81,28 @@ const SingleProduct = () => {
               <div className="qty flex">
                 <span className="text-light-blue qty-text">Qty: </span>
                 <div className="qty-change flex">
-                  <button type="button" className="qty-dec fs-14">
+                  <button
+                    type="button"
+                    className="qty-dec fs-14"
+                    onClick={() => decreaseQty()}
+                  >
                     <i className="fas fa-minus text-light-blue"></i>
                   </button>
-                  <span className="qty-value flex flex-center"></span>
+                  <span className="qty-value flex flex-center">{qty}</span>
                   <button
                     type="button"
                     className="qty-inc fs-14 text-light-blue"
+                    onClick={() => increaseQty()}
                   >
                     <i className="fas fa-plus"></i>
                   </button>
                 </div>
               </div>
-              <button type="button" className="btn-primary add-to-cart-btn">
+              <button
+                type="button"
+                className="btn-primary add-to-cart-btn"
+                onClick={() => addToCartHandler(product)}
+              >
                 <span className="btn-icon">
                   <i className="fas fa-cart-shopping"></i>
                 </span>
