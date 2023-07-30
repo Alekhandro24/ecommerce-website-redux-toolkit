@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/ecommerce-website-redux-toolkit/static/css/main.2ea4e963.css",
+    "main.js": "/ecommerce-website-redux-toolkit/static/js/main.6d930958.js",
+    "static/media/slider-img-1.png": "/ecommerce-website-redux-toolkit/static/media/slider-img-1.b7a307d15eedd0ac5c20.png",
+    "static/media/error.png": "/ecommerce-website-redux-toolkit/static/media/error.923fd4a571feb41f1f1f.png",
+    "index.html": "/ecommerce-website-redux-toolkit/index.html",
+    "static/media/spinner.svg": "/ecommerce-website-redux-toolkit/static/media/spinner.2498f9d3fee61f4ded35bedf651dc405.svg",
+    "main.2ea4e963.css.map": "/ecommerce-website-redux-toolkit/static/css/main.2ea4e963.css.map",
+    "main.6d930958.js.map": "/ecommerce-website-redux-toolkit/static/js/main.6d930958.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2ea4e963.css",
+    "static/js/main.6d930958.js"
+  ]
+}
