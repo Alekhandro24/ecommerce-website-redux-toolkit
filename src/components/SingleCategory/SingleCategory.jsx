@@ -23,8 +23,9 @@ const SingleCategory = ({ products, status }) => {
   return (
     <section className="cat-single py-5 bg-ghost-white">
       {isModalVisible && <SingleProduct />}
+
       <div className="container">
-        <div className="catr-single-content">
+        <div className="cat-single-content">
           <div className="section-title">
             <h3 className="text-uppercase fw-7 text-regal-blue ls-1">
               {products[0].category.name}
@@ -33,15 +34,15 @@ const SingleCategory = ({ products, status }) => {
           <div className="product-items grid">
             {products.map(product => (
               <div
-                key={product.id}
                 className="product-item bg-white"
+                key={product.id}
                 onClick={() => viewModalHandler(product)}
               >
                 <div className="product-item-img">
                   <img src={product.images[0]} alt="" />
-                </div>
-                <div className="product-item-cat text-white fs-13 text-uppercase bg-gold fw-6">
-                  {product.category.name}
+                  <div className="product-item-cat text-white fs-13 text-uppercase bg-gold fw-6">
+                    {product.category.name}
+                  </div>
                 </div>
                 <div className="product-item-body">
                   <h6 className="product-item-title text-pine-green fw-4 fs-15">
