@@ -4,15 +4,20 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCategories } from '../../redux/categorySlice.js';
 import { useEffect } from 'react';
+import { getCartTotal } from '../../redux/cartSlice';
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const { data: categories } = useSelector(state => state.category);
+  const { totalItems } = useSelector(state => state.cart);
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     dispatch(fetchCategories());
-  }, [dispatch]);
+    dispatch(getCartTotal());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <nav className="navbar">
@@ -25,7 +30,7 @@ const Navbar = () => {
             </Link>
 
             <form className="navbar-search flex">
-              <input type="text" placeholder="Search here..." />
+              <input type="text" placeholder="Search here ..." />
               <button type="submit" className="navbar-search-btn">
                 <i className="fas fa-search"></i>
               </button>
@@ -37,13 +42,14 @@ const Navbar = () => {
                   <i className="fas fa-shopping-cart"></i>
                 </span>
                 <div className="btn-txt fw-5">
-                  cart
-                  <span className="cart-count-value">0</span>
+                  Cart
+                  <span className="cart-count-value">{totalItems}</span>
                 </div>
               </Link>
             </div>
           </div>
         </div>
+
         <div className="navbar-bottom bg-regal-blue">
           <div className="container flex flex-between">
             <ul
@@ -52,13 +58,12 @@ const Navbar = () => {
               }`}
             >
               <button
-                onClick={() => setIsSidebarOpen(false)}
                 type="button"
                 className="navbar-hide-btn text-white"
+                onClick={() => setIsSidebarOpen(false)}
               >
                 <i className="fas fa-times"></i>
               </button>
-
               {categories.map(category => (
                 <li key={category.id}>
                   <Link
