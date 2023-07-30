@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import Slider from '../../components/Slider/Slider';
 import './HomePage.scss';
@@ -17,27 +16,25 @@ const HomePage = () => {
   const { data: categories, status: categoryStatus } = useSelector(
     state => state.category
   );
-  const { catProductAll: productsByCategory, catProductAllStatus } =
-    useSelector(state => state.category);
-
   const { data: products, status: productStatus } = useSelector(
     state => state.product
   );
+  const { catProductAll: productsByCategory, catProductAllStatus } =
+    useSelector(state => state.category);
 
   useEffect(() => {
     dispatch(fetchProducts());
     dispatch(fetchCategories());
     dispatch(fetchProductsByCategory(1, 'all'));
     dispatch(fetchProductsByCategory(2, 'all'));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="home-page">
       <Slider />
       <Category categories={categories} status={categoryStatus} />
-
       <ProductList products={products} status={productStatus} />
-
       <section>
         {productsByCategory[0] && (
           <SingleCategory
@@ -46,7 +43,6 @@ const HomePage = () => {
           />
         )}
       </section>
-
       <section>
         {productsByCategory[1] && (
           <SingleCategory
